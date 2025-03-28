@@ -1,0 +1,29 @@
+<header class="main-header">
+    <nav class="nav-container">
+        <div class="logo">
+            <a href="/Deploy_sample_page/">GitHub Pages 데모</a>
+        </div>
+        <ul class="nav-links">
+            <li><a href="/Deploy_sample_page/index.html">홈</a></li>
+            <li><a href="/Deploy_sample_page/pages/json-viewer.html">JSON 뷰어</a></li>
+            <li><a href="/Deploy_sample_page/pages/api-demo.html">API 데모</a></li>
+            <li><a href="/Deploy_sample_page/pages/chart-demo.html">차트 데모</a></li>
+        </ul>
+    </nav>
+</header>
+
+<script>
+// 네비게이션 링크 동적 수정
+document.addEventListener('DOMContentLoaded', function() {
+    const links = document.querySelectorAll('.nav-links a');
+    const currentPath = window.location.pathname;
+    
+    links.forEach(link => {
+        const href = link.getAttribute('href');
+        // 로컬 개발 환경에서 실행 시 경로 수정
+        if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+            link.setAttribute('href', href.replace('/Deploy_sample_page', ''));
+        }
+    });
+});
+</script> 

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>차트 데모 - GitHub Pages 데모</title>
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <link rel="stylesheet" href="../assets/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="header"></div>
+    
+    <main class="container">
+        <h1>차트 데모</h1>
+        
+        <section class="chart-demo">
+            <div class="chart-container">
+                <h2>막대 그래프</h2>
+                <canvas id="barChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2>선 그래프</h2>
+                <canvas id="lineChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2>파이 차트</h2>
+                <canvas id="pieChart"></canvas>
+            </div>
+
+            <div class="chart-container">
+                <h2>도넛 차트</h2>
+                <canvas id="doughnutChart"></canvas>
+            </div>
+        </section>
+
+        <section class="chart-controls">
+            <h2>차트 데이터 업데이트</h2>
+            <div class="control-panel">
+                <button onclick="updateBarChart()" class="btn">막대 그래프 업데이트</button>
+                <button onclick="updateLineChart()" class="btn">선 그래프 업데이트</button>
+                <button onclick="updatePieChart()" class="btn">파이 차트 업데이트</button>
+                <button onclick="updateDoughnutChart()" class="btn">도넛 차트 업데이트</button>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 GitHub Pages 데모. All rights reserved.</p>
+    </footer>
+
+    <script src="/assets/js/main.js"></script>
+    <script src="/assets/js/chart-demo.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="../assets/js/chart-demo.js"></script>
+</body>
+</html> 

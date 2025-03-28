@@ -1,0 +1,44 @@
+{
+    "products": [
+        {
+            "id": 1,
+            "name": "노트북",
+            "price": 1200000,
+            "category": "전자제품",
+            "stock": 15
+        },
+        {
+            "id": 2,
+            "name": "스마트폰",
+            "price": 800000,
+            "category": "전자제품",
+            "stock": 30
+        },
+        {
+            "id": 3,
+            "name": "헤드폰",
+            "price": 300000,
+            "category": "액세서리",
+            "stock": 50
+        },
+        {
+            "id": 4,
+            "name": "마우스",
+            "price": 50000,
+            "category": "액세서리",
+            "stock": 100
+        }
+    ],
+    "categories": [
+        {
+            "id": 1,
+            "name": "전자제품",
+            "description": "전자 기기 제품"
+        },
+        {
+            "id": 2,
+            "name": "액세서리",
+            "description": "전자제품 부속품"
+        }
+    ]
+} 
