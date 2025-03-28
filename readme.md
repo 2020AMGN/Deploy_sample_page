@@ -7,3 +7,6 @@ dev-env\Scripts\activate.bat
 pip install -r requirements.txt
 
 pip freeze > requirements.txt
+
+
+# https://2020amgn.github.io/Deploy_sample_page
