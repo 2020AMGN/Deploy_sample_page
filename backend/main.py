@@ -6,12 +6,12 @@ import uvicorn
 
 app = FastAPI()
 
-# CORS 설정
+# CORS 설정을 더 구체적으로 수정
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # 실제 배포 시에는 특정 도메인만 허용하도록 수정
-    allow_credentials=True,
-    allow_methods=["*"],
+    allow_origins=["*", "https://2020amgn.github.io"],
+    allow_credentials=False,  # True에서 False로 변경
+    allow_methods=["GET", "POST", "DELETE"],
     allow_headers=["*"],
 )
 

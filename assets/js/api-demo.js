@@ -52,11 +52,14 @@ async function addItem(item) {
         });
         
         if (response.ok) {
-            fetchItems(); // 목록 새로고침
-            document.getElementById('addItemForm').reset(); // 폼 초기화
+            fetchItems();
+            document.getElementById('addItemForm').reset();
+        } else {
+            console.error('서버 응답 오류:', await response.text());
         }
     } catch (error) {
         console.error('항목 추가 중 오류 발생:', error);
+        alert('항목 추가 중 오류가 발생했습니다. 개발자 도구의 콘솔을 확인해주세요.');
     }
 }
 
