@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QnA 연습</title>
+    <style>
+        @font-face {
+            font-family: 'RIDIBatang';
+            src: url('https://raw.githubusercontent.com/2020AMGN/gonafont/main/font/RIDIBatang.otf') format('opentype');
+            font-weight: 300;
+        }
+
+        @font-face {
+            font-family: 'GmarketSansTTFMedium';
+            src: url('https://raw.githubusercontent.com/2020AMGN/gonafont/main/font/GmarketSansTTFMedium.ttf') format('truetype');
+            font-weight: 500;
+        }
+
+        body {
+            font-family: 'RIDIBatang', serif;
+            line-height: 1.8;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8f9fa;
+            color: #212529;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        .container {
+            max-width: 800px;
+            margin: auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        h1 {
+            font-family: 'GmarketSansTTFMedium', sans-serif;
+            text-align: center;
+            color: #343a40;
+            font-size: 2.5rem;
+            margin-bottom: 1.5rem;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .controls button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            border: 1px solid #dee2e6;
+            background-color: #f8f9fa;
+            color: #495057;
+            border-radius: 8px;
+            transition: all 0.3s;
+            font-family: 'GmarketSansTTFMedium', sans-serif;
+        }
+        .controls button.active {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: white;
+            box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+        }
+        .controls button:hover:not(.active) {
+            background-color: #e9ecef;
+            border-color: #ced4da;
+        }
+
+        .qna-item {
+            background: #e3dbff;
+            margin-bottom: 15px;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #e9ecef;
+            transition: box-shadow 0.3s;
+        }
+
+        .qna-item:hover {
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        .question {
+            cursor: pointer;
+            color: #343a40;
+            font-size: 1.1rem;
+            position: relative;
+            padding-left: 30px;
+        }
+        .question::before {
+            content: 'Q.';
+            color: #007bff;
+            position: absolute;
+            left: 0;
+            font-family: 'GmarketSansTTFMedium', sans-serif;
+        }
+        .answer {
+            display: none;
+            margin-top: 15px;
+            padding-left: 30px;
+            color: #495057;
+            position: relative;
+        }
+        .answer.visible {
+            display: block;
+        }
+        .answer::before {
+            content: 'A.';
+            font-weight: bold;
+            color: #28a745;
+            position: absolute;
+            left: 0;
+            font-family: 'GmarketSansTTFMedium', sans-serif;
+        }
+
+        #random-qna-container {
+            text-align: center;
+        }
+        #random-qna-container .qna-item {
+             min-height: 150px;
+             display: flex;
+             flex-direction: column;
+             justify-content: center;
+             text-align: left;
+        }
+        #random-controls {
+            margin-top: 25px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        #random-controls button {
+            padding: 12px 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+            font-family: 'GmarketSansTTFMedium', sans-serif;
+        }
+        #show-answer-btn {
+            background-color: #007bff;
+            color: white;
+        }
+        #show-answer-btn:hover {
+            background-color: #0056b3;
+        }
+        #next-qna-btn {
+            background-color: #6c757d;
+            color: white;
+        }
+        #next-qna-btn:hover {
+            background-color: #5a6268;
+        }
+
+        .progress {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            color: #6c757d;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+            }
+            h1 {
+                font-size: 2rem;
+            }
+            .controls, #random-controls {
+                flex-direction: column;
+            }
+            .question, .answer {
+                padding-left: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>QnA 연습</h1>
+    <div class="controls">
+        <button id="view-all-btn" class="active">전체 보기</button>
+        <button id="view-random-btn">랜덤으로 보기</button>
+    </div>
+
+    <div id="all-qna-container" class="qna-view">
+        <!-- "전체 보기" 내용이 여기에 생성됩니다. -->
+    </div>
+
+    <div id="random-qna-container" class="qna-view" style="display: none;">
+        <div id="random-qna-item-wrapper">
+            <!-- "랜덤 보기" 내용이 여기에 생성됩니다. -->
+        </div>
+        <div id="random-controls">
+            <button id="show-answer-btn">정답 보기</button>
+            <button id="next-qna-btn">다음 질문</button>
+        </div>
+        <div id="progress-indicator" class="progress"></div>
+    </div>
+</div>
+
+<script>
+    const markdownContent = `
+[QnA] 실제 테스트를 해봤나요?
+-> 노이즈캔슬링 헤드셋을 착용한 상태로, 자동차 클락션과 함께 비교해보았습니다. 원하신다면 여기서 테스트 해보실 수 있습니다.
+[QnA] 각 작품의 차이가 먼가요 ?
+-> 1차작품은 아두이노로 수동부저와 피에조스피커를 동작시키는 형태로 진행하며 가능성을 본 제품이였고, 2차작품은 부저 1개당 1개의 아두이노가 필요한것을 알고, 다중으로 동작시키기 위한 작품입니다. 3차작품은 자동차 클락션과 비교하기위해 실제 제품형태로 만든 것입니다. 기존 클락션에 결합 할 수 있게 만들었고 버튼을 누르면 즉시 다중음파로 동작하게 만들어두었습니다. 4차작품은 형태는 골목길을 생각하고 만들었으며, 어플을 통해서 출력 주파수를 조절할 수 있게 만든 것입니다.
+[QnA] 무엇이 최종작품인가요?
+-> 3차 작품이 최종 작품입니다. 실제 클락션처럼 버튼을 누르면 즉각 동작하게 해두었고, 핸들 옆에 버튼을 만들어서 골목사고방지클락션의 형태를 생각했습니다. 4차 작품 또한 최종작품이지만, 발명 대회 이후를 생각한 작품입니다. 클락션의 종류에 따라서, 자동차에 결합된 형태에 따라서 적절한 주파수는 달라지는 것을 확인 했습니다. 실제 반영하기위해서는 자동차마다 다양한 주파수를 연구 및 테스트 해보는것이 필요해보였기에 4차작품을 만들었습니다.   물론 심사위원들이나 발표를 들으시는 분들도 다른 주파수를 궁금해 하시기도 하셨습니다.
+[QnA] 왜 다중으로 동작시키기 위해서 회로기판을 만들었나요? / 왜 회로기판을 만들었나요 ?
+-> 아두이노로 피에조스피커를 동작시킬 수 있는데, 1개의 아두이노당 1개의 피에조스피커만 동작시킬 수 있기에 여러개를 동시에 동작시키기위해서는 아두이노 5개가 필요했는데 너무 커지는거같아서, 작게하기위해서 이렇게 만들었습니다.
+[QnA] 왜 이런 아이템을 생각하게되었는가?
+-> 부저를 테스트했을때, 부저와 조합이 잘되서인지 소리가 강하게 나서 잘들리는 주파수가 있었고, 크기 않더라도 잘들리는 주파수가 있었습니다. 평상시에는 특정 주파수라서 잘들리는 것이 나오다가, 그래도 인지를 못하면 강한 소리가 나는 부저가 울리게 하는게 좋겠다는 생각을 가지고 있습니다.
+[QnA] 개발 하면서 어떠한 생각이 들었나?
+-> 아이디어부터 시작해서 될까 라는 의문이 있었는데, 1~2차 작품에서 노이즈캔슬링 헤드셋을 뚫고 들리는것을 보고 엄청 좋았으며, 3차 작품으로 중대형 클락션을 결합 했을때 자동차 클락션에서도 안들리는 소리가 잘들리는것을 보고 상용화 된다면 정말 많은 사고를 방지 할 수 있겠구나 생각했습니다.
+[QnA] 기존 클락션은 어떻게 되는거냐?
+-> 기존 클락션은 당연히 함께 존재 해야합니다. 기존 클락션은 더 큰소리가 나고, 경고성으로 좋기에 자동차에게 사용하기 매우 적합합니다. 단지 골목길과 같이 소리가 작은 곳이자, 노이즈캔틀링 학생이 많은 곳에서는 이제 골목사고방지 클락션을 필요로 할 것 입니다.
+[QnA] 주파수 마다 차이가 있는가 ?
+-> 클락션은 피에조 스피커 형태인데, 공명이 잘되어서 크게 소리가 나는 주파수가 있었고 그냥 들으면 낮은 데시벨로 조용하지만, 노이즈 캔슬링을 뚫고 잘들리는 주파수가 있었습니다. 현재는 그 두가지가 함께 나오게 되어있고 만약 조용하게 사용하고 싶다면 후자의 주파수만 사용 할 수 있습니다.
+[QnA] 제작의 어려운 점은 무었이였나 ?
+-> 적절한 주파수를 계속해서 찾는 것 이였다. 시끄러운 노래를 틀고 모든 주파수를 다 들으면서 취약한 주파수를 찾아야했다. 그리고 부저가 시끄럽다보니 다른 가정에 피해를 줄까봐 낮에 그리고 제일 구석진 방에서 개발을 하였습니다.
+[QnA] 어떻게 이렇게까지 만들었나?
+-> 어릴때부터 영재학교에 다니면서 메이킹에 관련된 교육들을 많이 배울 수 있었습니다. 그 과정에서 이런것을 제작 할 수 있는 선생님들도 만들 수 있어서. 제가 3D모델링하고 프린팅하고 아두이노로 만든 것을 회로로 까지 만들 수 있었습니다.
+[QnA] 다양한 회사의 노이즈캔슬링 이어폰/헤드셋에서 모두 효과가 있나요?
+-> 현재 QCY 헤드셋이랑 버즈 이어폰가지고는 테스트했을때 비슷한 주파수에서 비슷한 효과를 냈습니다.
+[QnA] 자동차 클락션 소리에 대한 법적 규제는 없나요?
+-> 자동차 클락션은 법적으로 데시벨 규정만 있고, 높은 주파수에 대한 규정은 없는것으로 확인하였습니다.
+[QnA] 이 시스템을 실제 자동차에 장착하려면 비용이 많이 들지 않나요?
+-> 3만원 정도의 가격으로 생각됩니다. 단일 주파수로 만들면 그 절반가격으로 만들 수 있습니다.
+[QnA] 기존 차량 전기 시스템에 동작이 가능한가야 ?
+-> 기존 클락션도 12V의 전기를 자동차로부터 받아서 동작하기에 같이 동작가능하게 만들 수 있습니다. 대신 기존 클락션은 전기만 주면되는데 이것은 보이듯 회로기판이 전기를 받고 받자마자 신호를 발생시켜서 동작시키는 형태입니다.
+[QnA] 전기를 얼마나 사용하나요 ?
+-> 골목 사고 방지 클락션은 3.3V , 0.12A  이라는 저전력으로 동작합니다. 자동차 클락션은 12V, 10A이기에 약 300배 전력차이가 납니다. 또한 건전지로도 동작가능하여 자동차 뿐만아니라 오토바이나 자전거와 같은 곳에서 충분히 활용 가능합니다.
+[QnA] 소음 민원이나 법적 문제는 없나요?
+-> 고주파수는 인지성은 높지만 멀리 퍼지지 못하는 특성이 있기에 도로를 벗어나서까지 피해를 주지 않을 것으로 예상됩니다.
+`;
+
+    function parseQnA(markdown) {
+        const qnaList = [];
+        const lines = markdown.trim().split('\n');
+        let currentQuestion = null;
+
+        for (const line of lines) {
+            const trimmedLine = line.trim();
+            if (trimmedLine.startsWith('[QnA]')) {
+                currentQuestion = trimmedLine.replace('[QnA]', '').trim();
+            } else if (trimmedLine.startsWith('->') && currentQuestion) {
+                const answer = trimmedLine.replace('->', '').trim();
+                qnaList.push({ question: currentQuestion, answer });
+                currentQuestion = null;
+            }
+        }
+        return qnaList;
+    }
+
+    const qnaData = parseQnA(markdownContent);
+    let shuffledQna = [];
+    let currentQnaIndex = 0;
+
+    const allQnaContainer = document.getElementById('all-qna-container');
+    const randomQnaContainer = document.getElementById('random-qna-container');
+    const randomQnaWrapper = document.getElementById('random-qna-item-wrapper');
+    const progressIndicator = document.getElementById('progress-indicator');
+
+    const viewAllBtn = document.getElementById('view-all-btn');
+    const viewRandomBtn = document.getElementById('view-random-btn');
+    const showAnswerBtn = document.getElementById('show-answer-btn');
+    const nextQnaBtn = document.getElementById('next-qna-btn');
+
+    function renderAllQnA() {
+        allQnaContainer.innerHTML = '';
+        qnaData.forEach(({ question, answer }) => {
+            const item = document.createElement('div');
+            item.className = 'qna-item';
+
+            const qElem = document.createElement('div');
+            qElem.className = 'question';
+            qElem.textContent = question;
+
+            const aElem = document.createElement('div');
+            aElem.className = 'answer';
+            aElem.textContent = answer;
+
+            qElem.addEventListener('click', () => {
+                aElem.classList.toggle('visible');
+            });
+
+            item.appendChild(qElem);
+            item.appendChild(aElem);
+            allQnaContainer.appendChild(item);
+        });
+    }
+
+    function shuffleArray(array) {
+        return array.map(value => ({ value, sort: Math.random() }))
+            .sort((a, b) => a.sort - b.sort)
+            .map(({ value }) => value);
+    }
+
+    function startRandomMode() {
+        shuffledQna = shuffleArray([...qnaData]);
+        currentQnaIndex = 0;
+        displayCurrentQna();
+    }
+
+    function displayCurrentQna() {
+        randomQnaWrapper.innerHTML = '';
+        if (currentQnaIndex >= shuffledQna.length) {
+            randomQnaWrapper.innerHTML = '<p>모든 질문을 완료했습니다! "전체 보기"로 복습하거나, 다시 시작하려면 "랜덤으로 보기" 버튼을 다시 눌러주세요.</p>';
+            showAnswerBtn.style.display = 'none';
+            nextQnaBtn.style.display = 'none';
+            progressIndicator.textContent = '';
+            return;
+        }
+
+        showAnswerBtn.style.display = 'inline-block';
+        nextQnaBtn.style.display = 'inline-block';
+        
+        const { question, answer } = shuffledQna[currentQnaIndex];
+
+        const item = document.createElement('div');
+        item.className = 'qna-item';
+
+        const qElem = document.createElement('div');
+        qElem.className = 'question';
+        qElem.textContent = question;
+        qElem.style.cursor = 'default';
+
+        const aElem = document.createElement('div');
+        aElem.className = 'answer';
+        aElem.textContent = answer;
+
+        item.appendChild(qElem);
+        item.appendChild(aElem);
+        randomQnaWrapper.appendChild(item);
+
+        progressIndicator.textContent = `진행도: ${currentQnaIndex + 1} / ${shuffledQna.length}`;
+    }
+    
+    viewAllBtn.addEventListener('click', () => {
+        allQnaContainer.style.display = 'block';
+        randomQnaContainer.style.display = 'none';
+        viewAllBtn.classList.add('active');
+        viewRandomBtn.classList.remove('active');
+    });
+
+    viewRandomBtn.addEventListener('click', () => {
+        randomQnaContainer.style.display = 'block';
+        allQnaContainer.style.display = 'none';
+        viewRandomBtn.classList.add('active');
+        viewAllBtn.classList.remove('active');
+        startRandomMode();
+    });
+
+    showAnswerBtn.addEventListener('click', () => {
+        const answerEl = randomQnaWrapper.querySelector('.answer');
+        if (answerEl) {
+            answerEl.classList.add('visible');
+        }
+    });
+
+    nextQnaBtn.addEventListener('click', () => {
+        currentQnaIndex++;
+        displayCurrentQna();
+    });
+
+    // 초기화
+    document.addEventListener('DOMContentLoaded', () => {
+        renderAllQnA();
+    });
+
+</script>
+
+</body>
+</html>
