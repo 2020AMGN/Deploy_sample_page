@@ -1,0 +1,470 @@
+/* 폰트 정의 */
+@font-face {
+    font-family: 'KOHIBaeumOTF';
+    src: url('https://raw.githubusercontent.com/2020AMGN/gonafont/main/font/KOHIBaeumOTF.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'NEXON Lv2 Gothic Medium';
+    src: url('https://raw.githubusercontent.com/2020AMGN/gonafont/main/font/NEXON%20Lv2%20Gothic%20Medium.ttf') format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'GmarketSansTTFMedium';
+    src: url('https://raw.githubusercontent.com/2020AMGN/gonafont/main/font/GmarketSansTTFMedium.ttf') format('truetype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'RIDIBatang';
+    src: url('https://raw.githubusercontent.com/2020AMGN/gonafont/main/font/RIDIBatang.otf') format('opentype');
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: 'EliceDigitalCodingverH_Regular';
+    src: url('https://raw.githubusercontent.com/2020AMGN/gonafont/main/font/EliceDigitalCodingverH_Regular.ttf') format('truetype');
+    font-weight: 400;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'RIDIBatang', serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.portfolio-container {
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    max-width: 1200px;
+    width: 100%;
+    display: flex;
+    min-height: 600px;
+    isolation: isolate; /* 렌더링 스택을 분리하여 자식 요소의 overflow 문제를 해결합니다. */
+}
+
+/* 왼쪽 이미지 슬라이더 */
+.image-slider {
+    flex: 1;
+    position: relative;
+    background: #f8f9fa;
+    overflow: hidden;
+}
+
+.slider-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    min-width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.slide img {
+    max-width: 90%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.slide-caption {
+    font-family: 'RIDIBatang', serif;
+    font-size: 1rem;
+    color: #333;
+    margin-top: 15px;
+    text-align: center;
+    padding: 0 20px;
+    font-weight: 300;
+}
+
+.slider-nav {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.slider-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #bdc3c7;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.slider-dot.active {
+    background: #3498db;
+    border-color: #2980b9;
+    box-shadow: 0 2px 8px rgba(52, 152, 219, 0.4);
+}
+
+.slider-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.8);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #333;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.slider-arrow:hover {
+    background: white;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+.slider-arrow.prev {
+    left: 20px;
+}
+
+.slider-arrow.next {
+    right: 20px;
+}
+
+/* 오른쪽 콘텐츠 */
+.content-section {
+    flex: 1;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative; /* 자식 요소의 absolute 위치 기준 */
+}
+
+.project-title {
+    font-family: 'KOHIBaeumOTF', serif;
+    font-size: 2.5rem;
+    font-weight: 300;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.project-subtitle {
+    font-family: 'NEXON Lv2 Gothic Medium', sans-serif;
+    font-weight: 300;
+    font-size: 1.2rem;
+    color: #7f8c8d;
+    margin-bottom: 30px;
+}
+
+.project-description {
+    font-family: 'RIDIBatang', serif;
+    font-size: 1rem;
+    line-height: 1.8;
+    color: #34495e;
+    margin-bottom: 30px;
+    text-align: justify;
+}
+
+.project-tags {
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.project-tags .tag {
+    background-color: #ecf0f1;
+    color: #34495e;
+    padding: 6px 14px;
+    border-radius: 15px;
+    font-family: 'RIDIBatang', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.tech-section {
+    margin-bottom: 30px;
+}
+
+.tech-title {
+    font-family: 'RIDIBatang', sans-serif;
+    font-weight: 500;
+    font-size: 1.3rem;
+    color: #3498db;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #3498db;
+    padding-bottom: 10px;
+}
+
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tech-tag {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 8px 16px;
+    border-radius: 20px;
+    font-family: 'RIDIBatang', serif;
+    font-weight: 300;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: none;
+}
+
+.tech-tag:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.tech-tag.active {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.tech-content {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 15px;
+    border-left: 4px solid #3498db;
+    display: none;
+}
+
+.tech-content.active {
+    display: block;
+    animation: fadeIn 0.3s ease;
+}
+
+.tech-content h4 {
+    font-family: 'RIDIBatang', sans-serif;
+    color: #2c3e50;
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 1.1rem;
+    color: #009499;
+}
+
+.tech-content p {
+    font-family: 'RIDIBatang', serif;
+    color: #34495e;
+    line-height: 1.6;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 제목과 버튼을 한 줄에 정렬 */
+.header-row {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.button-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+/* 전체 보기 버튼 */
+.show-all-button {
+    padding: 10px 20px;
+    background-color: rgba(255, 255, 255, 0.9);
+    color: #2c3e50;
+    border: 1px solid #bdc3c7;
+    border-radius: 30px;
+    cursor: pointer;
+    font-family: 'NEXON Lv2 Gothic Medium', sans-serif;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+    margin-left: 20px;
+}
+
+#savePdfBtn {
+    margin-top: 10px;
+    display: none;
+}
+
+.show-all-button:hover {
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+/* 전체 보기 모드 */
+.portfolio-container.show-all-active {
+    height: auto; /* 내용에 따라 높이 자동 조절 */
+    align-items: flex-start; /* 컬럼 상단 정렬 */
+    /* display: block; flex → block으로 변경하여 위아래로 쌓이게 */
+}
+
+.portfolio-container.show-all-active .image-slider {
+    height: auto;
+    padding-top: 40px; /* 전체 보기 시 상단 여백 추가 */
+    /* overflow: visible; 이 속성이 렌더링 문제를 일으켜서 제거합니다. */
+}
+
+.portfolio-container.show-all-active .slider-container {
+    flex-direction: column;
+    transform: none !important;
+    height: auto;
+}
+
+.portfolio-container.show-all-active .slide {
+    margin-bottom: 40px;
+}
+
+.portfolio-container.show-all-active .slider-arrow,
+.portfolio-container.show-all-active .slider-nav {
+    display: none;
+}
+
+.portfolio-container.show-all-active .tech-tags {
+    display: none;
+}
+
+.portfolio-container.show-all-active .tech-content {
+    display: block !important;
+    animation: none;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    .portfolio-container {
+        flex-direction: column;
+        max-width: 100%;
+    }
+
+    .image-slider {
+        height: 300px;
+    }
+
+    .content-section {
+        padding: 20px;
+    }
+
+    .project-title {
+        font-size: 2rem;
+    }
+
+    .slider-arrow {
+        width: 35px;
+        height: 35px;
+        font-size: 16px;
+    }
+    .header-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+}
+
+@media print {
+    body {
+        background: white;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+
+    .portfolio-container {
+        width: 100%;
+        max-width: 100%;
+        box-shadow: none;
+        border-radius: 0;
+        display: flex !important;
+        flex-direction: row !important;
+        height: auto !important;
+    }
+
+    .image-slider, .content-section {
+        flex: 1;
+        height: auto !important;
+        padding-top: 0 !important;
+        background: white !important;
+    }
+    
+    .content-section {
+        padding: 20px;
+    }
+
+    .slider-container {
+        flex-direction: column !important;
+        transform: none !important;
+        height: auto !important;
+    }
+
+    .slide {
+        page-break-inside: avoid;
+        margin-bottom: 15px;
+    }
+
+    .slide img {
+        box-shadow: none;
+        border: 1px solid #ccc;
+        max-width: 85%; /* A4 한페이지 출력 하기위해서는 여기서 이미지 크기 축소 */
+    }
+
+    .slide-caption {
+        font-size: 0.9em;
+        margin-top: 10px;
+    }
+
+    .button-wrapper, .slider-arrow, .slider-nav, .tech-tags {
+        display: none !important;
+    }
+
+    .tech-content {
+        display: block !important;
+        animation: none !important;
+        border: 0;
+        border-left: 4px solid #3498db;
+        border-radius: 0;
+        padding: 15px;
+        padding-top: 0;
+        margin-top: 15px;
+        background: transparent;
+    }
+
+    .project-description, .tech-section {
+        page-break-inside: avoid;
+    }
+} 
