@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SiteDock 편집기</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%23141619'/%3E%3Cpath d='M9 22 15 10h4l-6 12zm7 0 6-12h3l-6 12z' fill='%23c8f031'/%3E%3C/svg%3E">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css">
+<link rel="stylesheet" href="style.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.169.0/examples/jsm/"
+} }
+</script>
+<script defer src="viewer3d.js"></script>
+<script defer src="app.js"></script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#" aria-label="SiteDock"><svg class="mark" viewBox="0 0 32 24" aria-hidden="true"><path d="M2 22 12 2h6L8 22zm11 0L23 2h6L19 22z"/></svg>SiteDock</a>
+  <span class="divider" aria-hidden="true"></span>
+  <nav class="crumb" aria-label="워크스페이스">
+    <span class="crumb-root">Workspace</span><span class="crumb-sep">/</span>
+    <div class="switcher">
+      <button id="site-switch" type="button" aria-haspopup="listbox" aria-expanded="false"><span id="site-name">Studio On</span><i data-icon="chevron"></i></button>
+      <ul id="site-menu" role="listbox" hidden></ul>
+    </div>
+  </nav>
+  <div class="top-actions">
+    <span id="draft" class="draft"><i></i><span>초안</span></span>
+    <span class="divider" aria-hidden="true"></span>
+    <button id="preview-btn" class="ghost" type="button"><i data-icon="eye"></i><span>미리보기</span></button>
+    <button id="publish-btn" class="lime" type="button"><i data-icon="upload"></i><span>게시</span></button>
+  </div>
+</header>
+
+<div class="app" id="app">
+  <nav class="rail" aria-label="작업 메뉴">
+    <button type="button" data-rail="library" aria-pressed="true"><i data-icon="layers"></i><span>Sites</span></button>
+    <button type="button" data-rail="team" aria-pressed="false"><i data-icon="users"></i><span>Team</span></button>
+    <button type="button" data-rail="deploy" aria-pressed="false"><i data-icon="rocket"></i><span>Deploy</span></button>
+  </nav>
+
+  <aside class="side" aria-label="라이브러리">
+    <section class="side-view" data-view="library">
+      <h2 class="panel-title"><i data-icon="box"></i>Library</h2>
+      <div class="side-block">
+        <h3 class="sub-title"><i data-icon="github"></i>GitHub Skills</h3>
+        <div class="filters">
+          <label class="search"><i data-icon="search"></i><input id="search" type="search" placeholder="Search GitHub" aria-label="기능 검색"></label>
+          <label class="sort"><select id="sort" aria-label="정렬"><option value="stars">★ 스타순</option><option value="name">이름순</option></select><i data-icon="chevron"></i></label>
+        </div>
+        <div id="skills" class="skills"></div>
+        <p id="stars-note" class="fine">★ 수치는 2026-11-11 스냅샷입니다.</p>
+      </div>
+      <div class="side-block">
+        <h3 class="sub-title"><i data-icon="cube"></i>3D Assets</h3>
+        <label class="upload" id="upload">
+          <input id="glb-input" type="file" accept=".glb,model/gltf-binary">
+          <i data-icon="cloud"></i><b>Upload GLB</b><small>끌어 놓거나 눌러서 선택</small>
+        </label>
+        <div id="assets" class="assets"></div>
+      </div>
+    </section>
+
+    <section class="side-view" data-view="team" hidden>
+      <h2 class="panel-title"><i data-icon="users"></i>Team</h2>
+      <p class="fine pad">예시 구성원입니다. 실제 서비스에서는 사이트별 편집·게시 권한을 나눕니다.</p>
+      <ul class="team" id="team"></ul>
+    </section>
+
+    <section class="side-view" data-view="deploy" hidden>
+      <h2 class="panel-title"><i data-icon="rocket"></i>Deploy</h2>
+      <div class="deploy-target" id="deploy-target"></div>
+      <h3 class="sub-title small">게시 기록</h3>
+      <ol class="versions" id="versions"></ol>
+    </section>
+  </aside>
+
+  <main class="canvas" aria-labelledby="canvas-title">
+    <div class="canvas-head">
+      <h2 class="panel-title" id="canvas-title"><i data-icon="layers"></i>Site Canvas</h2>
+      <div class="segmented" role="group" aria-label="화면 너비">
+        <button type="button" data-width="desktop" aria-pressed="true"><i data-icon="monitor"></i><span>데스크톱</span></button>
+        <button type="button" data-width="mobile" aria-pressed="false"><i data-icon="phone"></i><span>모바일</span></button>
+      </div>
+    </div>
+    <div class="stage" id="stage">
+      <div class="browser" id="browser">
+        <div class="chrome">
+          <span class="lights"><i></i><i></i><i></i></span>
+          <div class="url"><i data-icon="lock"></i><span id="url">studioon.example</span><button type="button" id="reload" aria-label="사이트 다시 그리기"><i data-icon="refresh"></i></button></div>
+        </div>
+        <div class="site" id="site">
+          <header class="site-head">
+            <strong id="site-logo">Studio On</strong>
+            <nav><a>Shop</a><a>Collections</a><a>About</a></nav>
+            <button type="button" class="cart" id="cart">Cart (0)</button>
+          </header>
+          <div class="grid" id="grid"></div>
+          <div class="drop" id="drop"><span class="drop-plus"><i data-icon="plus"></i></span><b>Drop block here</b><small>라이브러리의 기능을 이곳으로 끌어 놓으세요</small></div>
+          <footer class="site-foot" id="site-foot"></footer>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <aside class="inspector" aria-labelledby="configure-title">
+    <h2 class="panel-title" id="configure-title"><i data-icon="gear"></i>Configure</h2>
+    <div id="inspector"></div>
+  </aside>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

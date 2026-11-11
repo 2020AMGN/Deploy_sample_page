@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>SiteDock · 사이트 편집기</title>
+<link rel="stylesheet" href="style.css">
+<script defer src="app.js"></script>
+</head>
+<body>
+<header class="top">
+  <a class="brand" href="#top" aria-label="SiteDock 홈"><span class="logo">S</span>SiteDock</a>
+  <span class="breadcrumb">워크스페이스 <b>›</b> 스튜디오 온</span>
+  <div class="top-actions">
+    <span class="status"><i></i> 로컬 데모</span>
+    <button id="view" class="primary" type="button">사이트 미리보기 ↗</button>
+  </div>
+</header>
+<main id="top">
+  <section class="hero">
+    <div class="hero-copy">
+      <p class="eyebrow">SITE STUDIO</p>
+      <h1>고객 사이트에<br>새 기능을 더하세요.</h1>
+      <p class="intro">GitHub 기능 블록을 페이지에 놓고, 프롬프트로 원하는 동작을 설정하세요.</p>
+      <a class="jump" href="#studio">편집기에서 체험하기 <span>↓</span></a>
+    </div>
+    <img src="assets/site-dock.png" alt="차트, 달력, 채팅, 양식 블록이 브라우저 페이지에 연결되는 모습">
+  </section>
+
+  <section class="studio" id="studio" aria-label="사이트 편집기">
+    <aside class="panel catalog" aria-labelledby="catalog-heading">
+      <div class="panel-head">
+        <p class="eyebrow">LIBRARY</p>
+        <h2 id="catalog-heading">기능 라이브러리</h2>
+      </div>
+      <label class="search">⌕ <input id="search" type="search" placeholder="기능 또는 저장소 검색" aria-label="기능 또는 저장소 검색"></label>
+      <p class="catalog-caption">GitHub 스타순 <small>조회 당시 수치</small></p>
+      <div id="catalog"></div>
+    </aside>
+
+    <section class="panel canvas" aria-labelledby="canvas-heading">
+      <div class="panel-head canvas-head">
+        <div><p class="eyebrow">CANVAS</p><h2 id="canvas-heading">사이트 캔버스</h2></div>
+        <div class="modes" aria-label="캔버스 너비">
+          <button id="desktop" type="button" aria-label="데스크톱 너비" aria-pressed="true">▱</button>
+          <button id="mobile" type="button" aria-label="모바일 너비" aria-pressed="false">▯</button>
+        </div>
+      </div>
+      <div class="stage">
+        <div class="browser" id="browser">
+          <div class="address"><span>● ● ●</span><span>studio-on.example / 고객 포털</span></div>
+          <div id="site" class="site">
+            <header class="site-head"><strong>스튜디오 온</strong><span>고객 포털</span></header>
+            <div id="blocks"></div>
+          </div>
+          <div id="dropzone" class="dropzone"><b>＋</b> 여기에 기능 블록을 놓으세요</div>
+        </div>
+      </div>
+    </section>
+
+    <aside class="panel inspector" aria-labelledby="settings-heading">
+      <div class="panel-head">
+        <p class="eyebrow">CONFIGURE</p>
+        <h2 id="settings-heading">프롬프트 설정</h2>
+      </div>
+      <div id="editor"></div>
+    </aside>
+  </section>
+  <footer><span>SiteDock · 고객 사이트 편집기 콘셉트</span><span>예시 사이트와 브라우저 내 동작</span></footer>
+</main>
+<dialog id="preview-dialog" aria-labelledby="preview-heading">
+  <div class="dialog-head"><h2 id="preview-heading">고객 사이트 미리보기</h2><form method="dialog"><button type="submit" aria-label="미리보기 닫기">닫기 ×</button></form></div>
+  <div id="preview" class="site"></div>
+</dialog>
+<div id="toast" class="toast" role="status"></div>
+</body>
+</html>

@@ -59,6 +59,10 @@ body {
     padding: 0 1rem;
 }
 
+.mentoring-demos {
+    margin-block: 2rem;
+}
+
 .feature-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -251,4 +255,4 @@ footer {
         display: block;
         overflow-x: auto;
     }
-} 
+}

@@ -1,0 +1,98 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="초원에서 드론 세 대의 관측 비행을 3D 관제·드론 시점·2D 지도로 시연하는 관제 웹">
+  <title>MEADOW CONTROL · 초원 비행 관제실</title>
+  <script type="module" crossorigin src="./assets/index-D8w0e-g9.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/index-D7iGgItO.css">
+</head>
+<body>
+  <header class="top">
+    <div class="brand"><span class="logo" aria-hidden="true"></span><span>MEADOW <strong>CONTROL</strong></span></div>
+    <div class="mode"><i></i> SIMULATION</div>
+  </header>
+  <main>
+    <section class="intro">
+      <div class="title">
+        <h1>초원 비행 관제실</h1>
+        <p>드론을 선택하고 관측 지점을 지정하세요. 세 화면은 같은 비행 상태를 공유합니다.</p>
+      </div>
+      <button type="button" class="reset" id="reset">↺ 시뮬레이션 초기화</button>
+    </section>
+
+    <nav class="tabs" role="tablist" aria-label="관제 화면">
+      <button type="button" role="tab" id="tab-3d" data-view="3d" aria-selected="true">3D 관제 <kbd>1</kbd></button>
+      <button type="button" role="tab" id="tab-fpv" data-view="fpv" aria-selected="false">드론 시점 <kbd>2</kbd></button>
+      <button type="button" role="tab" id="tab-map" data-view="map" aria-selected="false">2D 지도 <kbd>3</kbd></button>
+    </nav>
+
+    <div class="console">
+      <section class="mission" aria-label="비행 관제 화면">
+        <div class="panel-head">
+          <h2 id="stage-title">3D 비행 지도</h2>
+          <div class="view-buttons">
+            <button id="camera" type="button" aria-pressed="false" disabled>▧ 상공 보기</button>
+          </div>
+        </div>
+        <div id="stage">
+          <div id="viewport">
+            <div id="labels"></div>
+            <div id="loading" role="status">3D 모델을 불러오는 중…</div>
+            <div id="fpv-hud" hidden>
+              <div class="tape"><div id="tape-inner"></div><b aria-hidden="true">▼</b><span id="heading">000°</span></div>
+              <span class="corner tl"></span><span class="corner tr"></span><span class="corner bl"></span><span class="corner br"></span>
+              <div id="target-box" hidden><span id="target-label"></span></div>
+              <div id="fpv-empty" hidden>편대 목록에서 드론을 선택하면 전방 카메라가 연결됩니다.</div>
+              <div class="fpv-read"><span id="fpv-alt">고도 0.0 m</span><span id="fpv-dist">거리 —</span></div>
+            </div>
+            <div class="map-tools" aria-label="지도 조작법"><span>클릭 선택</span><span>드래그 회전</span><span>스크롤 확대·축소</span></div>
+          </div>
+          <div id="map" hidden>
+            <canvas id="map-canvas" aria-label="드론 위치와 항로를 표시한 2D 관측 지도"></canvas>
+            <div class="north" aria-hidden="true">N<b>▲</b></div>
+            <div class="legend">
+              <strong>범례</strong>
+              <span><em class="lg-drone">▶</em>드론 (진행 방향)</span>
+              <span><em class="lg-route"></em>임무 항로</span>
+              <span><em class="lg-trail"></em>지나온 항로</span>
+              <span><em class="lg-station">A</em>관측소</span>
+              <span><em class="lg-contour"></em>등고선 (시연 지형)</span>
+            </div>
+            <div class="map-tools"><span>드론·관측소 클릭으로 지정</span></div>
+          </div>
+        </div>
+        <div class="map-foot"><span><i></i> 초원 관측 구역 · 시연 좌표</span><span id="route-count">이동 중 0대</span></div>
+      </section>
+
+      <aside class="sidebar" aria-label="드론과 관측 지점">
+        <section class="panel">
+          <div class="panel-head"><h2>드론 편대</h2><span class="count">3대</span></div>
+          <div id="fleet" class="list"></div>
+        </section>
+        <section class="panel">
+          <div class="panel-head"><h2>관측 지점</h2><span class="count">3곳</span></div>
+          <div id="stations" class="list"></div>
+          <p id="instruction" aria-live="polite">3D 모델을 불러오는 중입니다.</p>
+        </section>
+        <section class="panel status">
+          <div class="panel-head"><h2>관측 상태</h2><span class="count" id="status-code">—</span></div>
+          <dl>
+            <div><dt>지정 지점</dt><dd id="st-station">—</dd></div>
+            <div><dt>고도</dt><dd id="st-alt">—</dd></div>
+            <div><dt>남은 거리</dt><dd id="st-dist">—</dd></div>
+            <div><dt>접근 방향</dt><dd id="st-bearing">—</dd></div>
+          </dl>
+          <div id="st-badge" class="badge">기체 미선택</div>
+        </section>
+      </aside>
+    </div>
+
+    <section class="panel activity">
+      <div class="panel-head"><h2>비행 기록</h2><span class="count">이번 세션</span></div>
+      <ol id="events"></ol>
+    </section>
+  </main>
+</body>
+</html>
